@@ -1,47 +1,11 @@
-teams =[{"id":1,"name":"","played":None,"wins":None,"draws":None,"losses":None,"goals_for":None,"goals_against":None,"points":None}]
-team ={"id":None,"name":"","played":None,"wins":None,"draws":None,"losses":None,"goals_for":None,"goals_against":None,"points":None} 
-matches = [{"home_team_id": 1, "away_team_id": 2,"home_goals": 3, "away_goals": 1}]
+from data import teams, matches, teams_plasyed
+from Features import add_team, show_all_teams, add_much_result,create_match,create_team
+from display import display_menu
+from validations import validate_input, team_exist_validation,user_choice
+from score_calc import update_team_stats,update_score,calculate_points
+# calculate_standings, get_leading_team, get_best_attacking_team, get_team_success_rate, get_teams_without_goals, get_tournament_summary, check_championship_potential
 
 
-def add_much_result():
-    while True:
-        home_team_id = validate_input("enter home team id: ", "positive_num")
-        team_exist_validation(val=home_team_id)
-        away_team_id = validate_input("enter away team id: ", "positive_num")
-        team_exist_validation(val=away_team_id)
-        home_goals = validate_input("enter home team goals: ", "positive_num")
-        away_goals = validate_input("enter away team goals: ", "positive_num")
-        if not match_exist_validation(home_team_id, away_team_id):
-            continue
-        else:
-            return matches.append(create_match(home_team_id, away_team_id, home_goals, away_goals))
-
-def display_menu():
-    print("\nWelcome to the Soccer Tournament!")
-    print("1. add a team")
-    print("2. show all teams")
-    print("3. add match result")
-    print("4. show standings")
-    print("5. show leading team")
-    print("6. show best attacing team")
-    print("7. show team success rate")
-    print("8. show teams without goals")
-    print("9. show tornament summary")
-    print("10. chack championship potential")
-    print("11. exit")
-
-
-
-
-
-def user_choice():
-    while True:
-        display_menu()
-        choice = input("Enter your choice (1-11): ")
-        if choice.isdigit() and 1 <= int(choice) <= 11:
-            return int(choice)
-        else:
-            print("invalid choice. please enter a number between 1 and 11.")
 
 
 def main():
@@ -71,78 +35,5 @@ def main():
             case 11:
                 print("goodbye")
                 break
-
-
-
-def add_team():
-    while True:
-        name = validate_input("enter team name: ", "str").lower()
-        if not team_exist_validation(val=name):
-            continue
-        id =  validate_input("enter team id: ", "positive_num")
-        if not team_exist_validation(val=id):
-            continue
-        else:
-            return teams.append(create_team(id, name))
-
-
-def team_exist_validation(val):
-    if any(team["name"] == val for team in teams):
-        print("team already exists")
-    if any(team["id"] == val for team in teams):
-        print("team id already exists")
-        return False
-    return True
-
-
-
-def create_team(id, name):
-    team = {
-        "id": id,
-        "name": name,
-        "played": 0,
-        "wins": 0,
-        "draws": 0,
-        "losses": 0,
-        "goals_for": 0,
-        "goals_against": 0,
-        "points": 0}
-    return team
-
-def show_all_teams():
-    if not teams:
-        print("No teams available.")
-    else:
-        for team in teams:
-            print(f"ID: {team['id']}, Name: {team['name']}, Played: {team['played']}, Wins: {team['wins']}, Draws: {team['draws']}, Losses: {team['losses']}, Goals For: {team['goals_for']}, Goals Against: {team['goals_against']}, Points: {team['points']}")
-
-
-def validate_input(message, input_type):
-    while True:
-        user_input = input(message).strip()
-        if input_type == "num":
-            if user_input.isdigit():
-                return int(user_input)
-            else:
-                print("please enter a number")
-        elif input_type == "positive_num":
-            if user_input.isdigit() and int(user_input) > 0:
-                return int(user_input)
-            else:
-                print("please enter a positive number")
-        elif input_type == "str":
-            if user_input.isalpha():
-                return user_input
-            else:
-                print("please enter a string")
-        elif input_type == "not_empty":
-            if user_input.strip():
-                return user_input
-            else:
-                print("cant be empty value")
-
-
-
-
 main()
 print(teams)

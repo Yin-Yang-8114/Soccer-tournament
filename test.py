@@ -1,7 +1,7 @@
-teams =[{"id":1,"name":"","played":None,"wins":None,"draws":None,"losses":None,"goals_for":None,"goals_against":None,"points":None},{"id":2,"name":"fksjf","played":None,"wins":None,"draws":None,"losses":None,"goals_for":None,"goals_against":None,"points":None}]
-team ={"id":None,"name":"","played":None,"wins":None,"draws":None,"losses":None,"goals_for":None,"goals_against":None,"points":None} 
-matches = [{"home_team_id": 1, "away_team_id": 2,"home_goals": 3, "away_goals": 1}]
-
+teams =[{"id":1,"name":"chaim","played":0,"wins":0,"draws":0,"losses":0,"goals_for":0,"goals_against":0,"points":0},{"id":2,"name":"michaek","played":0,"wins":0,"draws":0,"losses":0,"goals_for":0,"goals_against":0,"points":0}]
+team ={"id":None,"name":"","played":0,"wins":0,"draws":0,"losses":0,"goals_for":0,"goals_against":0,"points":0} 
+matches = []
+teams_plasyed = []
 
 def add_much_result():
     while True:
@@ -13,9 +13,16 @@ def add_much_result():
         if  team_exist_validation(val=away_team_id):
             print("team does not exist")
             continue
+        if home_team_id == away_team_id:
+            print("home and away team cannot be the same")
+            continue
+        if home_team_id + away_team_id in (teams_plasyed):
+            print("match already played")
+            continue
         home_goals = validate_input("enter home team goals: ", "positive_num")
         away_goals = validate_input("enter away team goals: ", "positive_num")
-        return home_team_id, away_team_id, home_goals, away_goals
+        teams_plasyed.append((home_team_id + away_team_id))
+        return matches.append(create_match(home_team_id, away_team_id, home_goals, away_goals))
 
 def create_match(home_team_id, away_team_id, home_goals, away_goals):
     match = {
@@ -24,6 +31,17 @@ def create_match(home_team_id, away_team_id, home_goals, away_goals):
         "home_goals": home_goals,
         "away_goals": away_goals}
     return match
+
+
+def update_score():
+    for match in matches:
+        home_team_id = match["home_team_id"]
+        away_team_id = match["away_team_id"]
+        home_goals = match["home_goals"]
+        away_goals = match["away_goals"]
+        home_points, away_points = calculate_points(home_goals, away_goals)
+        update_team_stats(home_team_id, home_goals, away_goals, home_points)
+        update_team_stats(away_team_id, away_goals, home_goals, away_points)
 
 def calculate_points(home_goals, away_goals):
     if home_goals > away_goals:
@@ -158,7 +176,7 @@ def validate_input(message, input_type):
             else:
                 print("please enter a number")
         elif input_type == "positive_num":
-            if user_input.isdigit() and int(user_input) > 0:
+            if user_input.isdigit() and int(user_input) >= 0:
                 return int(user_input)
             else:
                 print("please enter a positive number")

@@ -1,9 +1,8 @@
 from data import teams, matches, teams_plasyed
-from Features import add_team, show_all_teams, add_much_result,create_match,create_team
+from Features import *
 from display import display_menu
 from validations import validate_input, team_exist_validation,user_choice
 from score_calc import update_team_stats,update_score,calculate_points
-# calculate_standings, get_leading_team, get_best_attacking_team, get_team_success_rate, get_teams_without_goals, get_tournament_summary, check_championship_potential
 
 
 
@@ -19,21 +18,23 @@ def main():
             case 3:
                 add_much_result()
             case 4:
-                pass  # show standings
+                standings()
             case 5:
-                pass  # show leading team
+                show_leading_team()
             case 6:
-                pass  # show best attacking team
+                show_best_attacking_team()
             case 7:
-                pass  # show team success rate
+                show_team_success_rate()
             case 8:
-                pass  # show teams without goals
+                show_teams_without_goals()
             case 9:
-                pass  # show tournament summary
+                show_tournament_summary()
             case 10:
                 pass  # check championship potential
             case 11:
                 print("goodbye")
                 break
-main()
-print(teams)
+
+
+if __name__=="__main__":
+    main()

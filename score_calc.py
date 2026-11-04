@@ -1,8 +1,7 @@
 from data import teams, matches, teams_plasyed
 
 
-def update_score():
-    for match in matches:
+def update_score(match):
         home_team_id = match["home_team_id"]
         away_team_id = match["away_team_id"]
         home_goals = match["home_goals"]
